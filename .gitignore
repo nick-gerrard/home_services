@@ -1,0 +1,55 @@
+# Python
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyd
+backend/.Python
+backend/.venv/
+backend/ENV/
+backend/.venv/
+backend/*.egg-info
+backend/.coverage
+
+# Environment files
+.env
+
+# Byte-compiled / optimized / DLL files
+backend/__pycache__/
+backend/*.py[cod]
+backend/*$py.class
+
+# C extensions (not relevant here but good to have)
+backend/*.so
+
+# Distribution / packaging
+backend/.Python
+backend/build/
+backend/dist/
+backend/sdist/
+backend/*.egg-info
+backend/MANIFEST
+
+# Editor-specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.vimrc.local*
+.DS_Store
+
+# Angular frontend (will be relevant later)
+frontend/node_modules
+frontend/dist
+frontend/.angular
+frontend/.cache
+.angular-cli.json
+angular.json
+package-lock.json
+
+# Logs and temp files
+*.log
+tmp/
+temp/
+*.tmp
+
+# OS generated files
+Thumbs.db

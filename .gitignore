@@ -8,6 +8,7 @@ backend/ENV/
 backend/.venv/
 backend/*.egg-info
 backend/.coverage
+**/__pycache__/
 
 # Environment files
 .env

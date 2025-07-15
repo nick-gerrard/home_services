@@ -11,6 +11,8 @@ backend/.coverage
 
 # Environment files
 .env
+venv
+venv/*
 
 # Byte-compiled / optimized / DLL files
 backend/__pycache__/

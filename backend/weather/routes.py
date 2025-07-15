@@ -14,7 +14,8 @@ def get_current_weather():
         'current_weather': True,
         'temperature_unit': 'celsius' if units == 'metric' else 'fahrenheit',
         'windspeed_unit': 'ms' if units == 'metric' else 'mph',
-        'precipitation_unit': 'mm' if units == 'metric' else 'inch'
+        'precipitation_unit': 'mm' if units == 'metric' else 'inch',
+        'daily': ['temperature_2m_max', 'temperature_2m_min'],
     }
 
     if lat:
@@ -39,6 +40,11 @@ def get_current_weather():
         weather_code = current_weather.get('weathercode')
         timestamp = current_weather.get('time')
 
+        daily_data = weather_data.get('daily', {})
+        # Open-Meteo returns daily data as arrays, so we take the first element for today's forecast
+        daily_high = daily_data.get('temperature_2m_max', [None])[0]
+        daily_low = daily_data.get('temperature_2m_min', [None])[0]
+
         # Map weather codes to descriptions and icons (simplified)
         weather_description, weather_icon = get_weather_interpretation(weather_code)
 
@@ -48,7 +54,9 @@ def get_current_weather():
             "wind_direction": wind_direction,
             "description": weather_description,
             "icon": weather_icon,
-            "timestamp": timestamp
+            "timestamp": timestamp,
+            "daily_high": daily_high, # Added daily high
+            "daily_low": daily_low   # Added daily low
         }
 
         return jsonify(formatted_data)

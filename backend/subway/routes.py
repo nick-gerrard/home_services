@@ -1,8 +1,7 @@
 # backend/subway/routes.py
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from .services import get_next_train_arrivals, format_time
-from flask import current_app
 
 subway_bp = Blueprint('subway', __name__)
 
@@ -13,6 +12,8 @@ def subway_arrivals():
 
     if not station_id:
         return jsonify({"error": "Missing 'stop_id' parameter"}), 400
+    if not line:
+        return jsonify({"error": "Missing 'line' parameter"}), 400
 
     arrivals = get_next_train_arrivals(line.upper(), station_id) # Assuming stop_id is case-sensitive
     formatted_arrivals = format_time(arrivals)

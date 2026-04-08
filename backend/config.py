@@ -4,10 +4,9 @@ from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 
 class Config:
-    DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'  # Default to True if not set
+    DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
     # API Keys
-    MTA_API_KEY = os.getenv('MTA_API_KEY')
     GOOGLE_CALENDAR_API_KEY = os.getenv('GOOGLE_CALENDAR_API_KEY')
     WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
 

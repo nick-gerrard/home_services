@@ -4,6 +4,7 @@ import requests
 from google.transit import gtfs_realtime_pb2
 from google.protobuf.json_format import MessageToDict
 import datetime
+from zoneinfo import ZoneInfo
 from flask import current_app  # To access Flask config
 
 API_URLS = {
@@ -82,7 +83,7 @@ def format_time(arrivals):
         for key, dt_object in arrivals.items():
             if isinstance(dt_object, datetime.datetime):
                 # Convert to local timezone for display
-                local_arrival_time = dt_object.astimezone(datetime.timezone(datetime.timedelta(hours=-4))) # Assuming EDT
+                local_arrival_time = dt_object.astimezone(ZoneInfo('America/New_York'))
                 formatted_arrivals[key] = local_arrival_time.strftime("%I:%M %p") # 12-hour format with AM/PM
             else:
                 current_app.logger.warning(f"Value for key '{key}' is not a datetime object. Skipping.")

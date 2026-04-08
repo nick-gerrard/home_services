@@ -19,5 +19,5 @@ jobs:
             set -e
             cd /home/nickg/home_services
             git pull origin main
-            uv pip install -r backend/requirements.txt --python .venv
+            $HOME/.local/bin/uv pip install -r backend/requirements.txt --python .venv
             sudo systemctl restart home-services

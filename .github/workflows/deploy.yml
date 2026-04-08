@@ -1,0 +1,23 @@
+name: Deploy to Linode
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.LINODEDEPLOY }}
+          script: |
+            set -e
+            cd /home/nickg/home_services
+            git pull origin main
+            uv pip install -r backend/requirements.txt --python .venv
+            sudo systemctl restart home-services

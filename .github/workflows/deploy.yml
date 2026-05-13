@@ -5,9 +5,28 @@ on:
     branches: [main]
 
 jobs:
-  deploy:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Install deps
+        working-directory: backend
+        run: uv sync
+
+      - name: Ruff check
+        working-directory: backend
+        run: uv run ruff check .
+
+  deploy:
+    name: Deploy
+    needs: lint
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
@@ -19,5 +38,6 @@ jobs:
             set -e
             cd /home/nickg/home_services
             git pull origin main
-            $HOME/.local/bin/uv pip install -r backend/requirements.txt --python .venv
+            cd backend
+            uv sync
             sudo systemctl restart home-services

@@ -1,0 +1,109 @@
+<div class="layout layout--full">
+  <div class="view view--full">
+    <div class="columns columns--1">
+      <div class="column column--grow">
+        <div class="dashboard">
+
+          <!-- Subway -->
+          <div class="dashboard__subway">
+            <div class="text--align-center">
+              <span class="title text--size-l">181st Street</span>
+              <span class="label">A Train &mdash; Downtown</span>
+            </div>
+            <div class="arrivals">
+              {% for a in arrivals %}
+              <div class="arrival">
+                <span class="text--size-xxl text--bold">{{ a.minutes }}</span>
+                <span class="text--size-s">min</span>
+              </div>
+              {% else %}
+              <span class="label">No upcoming trains</span>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Weather -->
+          <div class="dashboard__weather">
+            {% if weather %}
+            <div class="weather__temp">
+              <span class="text--size-xxl text--bold">{{ weather.temperature }}&deg;</span>
+              <span class="label">{{ weather.description }}</span>
+            </div>
+            <div class="weather__detail">
+              <span class="label">H {{ weather.high }}&deg; &nbsp; L {{ weather.low }}&deg;</span>
+              <span class="label">{{ weather.wind_speed }} mph</span>
+            </div>
+            {% else %}
+            <span class="label">Weather unavailable</span>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://files.mta.info/s3fs-public/styles/medium/public/2021-12/mta-blue-logo-rectangle.png?itok=wRI6jOYW">
+  <span class="title">Home Dashboard</span>
+  <span class="instance">181 St, NYC</span>
+</div>
+
+<style>
+  .layout--full, .view--full { height: 100%; }
+
+  .dashboard {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .dashboard__subway {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+  }
+
+  .dashboard__weather {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    border-left: 1px solid #ccc;
+    padding-left: 16px;
+    height: 100%;
+  }
+
+  .arrivals {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .arrival {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .weather__temp, .weather__detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .text--align-center { text-align: center; }
+  .text--bold { font-weight: bold; }
+  .text--size-s  { font-size: 0.7em; }
+  .text--size-l  { font-size: 1.5em; }
+  .text--size-xxl { font-size: 3.5em; line-height: 1; }
+</style>

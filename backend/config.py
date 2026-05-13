@@ -1,22 +1,16 @@
-import os
-from dotenv import load_dotenv
-
-load_dotenv()  # Load environment variables from .env file
-
-class Config:
-    DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-
-    # API Keys
-    GOOGLE_CALENDAR_API_KEY = os.getenv('GOOGLE_CALENDAR_API_KEY')
-    WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
-
-    # Default settings
-    DEFAULT_WEATHER_LOCATION = os.getenv('DEFAULT_WEATHER_LOCATION', 'New York')
-    DEFAULT_SUBWAY_STATION = os.getenv('DEFAULT_SUBWAY_STATION', '181st Street')
-    DEFAULT_SUBWAY_LINE = os.getenv('DEFAULT_SUBWAY_LINE', 'ACE')
-
-    DEFAULT_LATITUDE = os.environ.get('DEFAULT_LATITUDE', 40.7128)  # Default to New York City
-    DEFAULT_LONGITUDE = os.environ.get('DEFAULT_LONGITUDE', -74.0060) # Default to New York City
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-    # Add other configuration variables as needed
+class Settings(BaseSettings):
+    debug: bool = False
+
+    subway_stop_id: str = "A06S"
+    subway_line: str = "A"
+
+    default_latitude: float = 40.8487
+    default_longitude: float = -73.9385
+
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+
+
+settings = Settings()

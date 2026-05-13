@@ -39,5 +39,5 @@ jobs:
             cd /home/nickg/home_services
             git pull origin main
             cd backend
-            uv sync
+            uv sync --no-dev
             sudo systemctl restart home-services

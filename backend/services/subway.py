@@ -1,4 +1,5 @@
 import datetime
+from zoneinfo import ZoneInfo
 
 import httpx
 from google.protobuf.json_format import MessageToDict
@@ -56,10 +57,12 @@ async def get_arrivals(stop_id: str, line: str, num_trains: int = 5) -> list[dic
             if not time_val:
                 continue
             arrival_dt = datetime.datetime.fromtimestamp(int(time_val), tz=datetime.timezone.utc)
-            minutes = int((arrival_dt - now).total_seconds() / 60)
-            if minutes < 0:
+            if arrival_dt <= now:
                 continue
-            arrivals.append({"route": route_id, "minutes": minutes})
+            ny_time = arrival_dt.astimezone(ZoneInfo("America/New_York"))
+            hour = ny_time.hour % 12 or 12
+            time_str = f"{hour}:{ny_time.strftime('%M')}"
+            arrivals.append({"route": route_id, "time": time_str, "_sort": arrival_dt})
 
-    arrivals.sort(key=lambda x: x["minutes"])
+    arrivals.sort(key=lambda x: x.pop("_sort"))
     return arrivals[:num_trains]

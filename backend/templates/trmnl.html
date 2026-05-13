@@ -2,19 +2,19 @@
   <div class="view view--full">
     <div class="columns columns--1">
       <div class="column column--grow">
-        <div class="dashboard">
 
-          <!-- Subway -->
-          <div class="dashboard__subway">
-            <div class="text--align-center">
+        <div class="panel">
+
+          <div class="panel__subway">
+            <div class="station-header">
               <span class="title text--size-l">181st Street</span>
               <span class="label">A Train &mdash; Downtown</span>
             </div>
             <div class="arrivals">
               {% for a in arrivals %}
               <div class="arrival">
-                <span class="text--size-xxl text--bold">{{ a.minutes }}</span>
-                <span class="text--size-s">min</span>
+                <span class="arrival__time">{{ a.time }}</span>
+                <span class="arrival__route">{{ a.route }}</span>
               </div>
               {% else %}
               <span class="label">No upcoming trains</span>
@@ -22,23 +22,19 @@
             </div>
           </div>
 
-          <!-- Weather -->
-          <div class="dashboard__weather">
+          <div class="panel__weather">
             {% if weather %}
-            <div class="weather__temp">
-              <span class="text--size-xxl text--bold">{{ weather.temperature }}&deg;</span>
-              <span class="label">{{ weather.description }}</span>
-            </div>
-            <div class="weather__detail">
-              <span class="label">H {{ weather.high }}&deg; &nbsp; L {{ weather.low }}&deg;</span>
-              <span class="label">{{ weather.wind_speed }} mph</span>
-            </div>
+            <span class="weather__temp">{{ weather.temperature }}&deg;</span>
+            <span class="label">{{ weather.description }}</span>
+            <span class="label">H {{ weather.high }}&deg; &nbsp; L {{ weather.low }}&deg;</span>
+            <span class="label">{{ weather.wind_speed }} mph</span>
             {% else %}
             <span class="label">Weather unavailable</span>
             {% endif %}
           </div>
 
         </div>
+
       </div>
     </div>
   </div>
@@ -52,34 +48,41 @@
 
 <style>
   .layout--full, .view--full { height: 100%; }
+  .columns { align-items: stretch !important; }
 
-  .dashboard {
+  .panel {
     display: flex;
     flex-direction: row;
     height: 100%;
     width: 100%;
-    gap: 16px;
   }
 
-  .dashboard__subway {
+  .panel__subway {
     flex: 3;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
-    height: 100%;
+    padding: 20px 24px;
   }
 
-  .dashboard__weather {
+  .panel__weather {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     text-align: center;
-    border-left: 1px solid #ccc;
-    padding-left: 16px;
-    height: 100%;
+    gap: 6px;
+    border-left: 1px solid #000;
+    padding: 20px 16px;
+  }
+
+  .station-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
   }
 
   .arrivals {
@@ -93,17 +96,26 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 6px;
   }
 
-  .weather__temp, .weather__detail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .arrival__time {
+    font-size: 2em;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
   }
 
-  .text--align-center { text-align: center; }
-  .text--bold { font-weight: bold; }
-  .text--size-s  { font-size: 0.7em; }
-  .text--size-l  { font-size: 1.5em; }
-  .text--size-xxl { font-size: 3.5em; line-height: 1; }
+  .arrival__route {
+    font-size: 0.85em;
+    color: #555;
+  }
+
+  .weather__temp {
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 1;
+  }
+
+  .text--size-l { font-size: 1.4em; }
 </style>

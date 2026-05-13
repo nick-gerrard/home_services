@@ -5,7 +5,6 @@
 
         <div class="screen">
 
-          <!-- Top: Subway + Weather -->
           <div class="top-row">
 
             <div class="panel__subway">
@@ -29,8 +28,8 @@
               {% if weather %}
               <span class="weather__temp">{{ weather.temperature }}&deg;</span>
               <span class="label">{{ weather.description }}</span>
-              <span class="label">H {{ weather.high }}&deg; &nbsp; L {{ weather.low }}&deg;</span>
-              <span class="label">{{ weather.wind_speed }} mph</span>
+              <span class="label label--small">H {{ weather.high }}&deg; &nbsp; L {{ weather.low }}&deg;</span>
+              <span class="label label--small">{{ weather.wind_speed }} mph</span>
               {% else %}
               <span class="label">Weather unavailable</span>
               {% endif %}
@@ -38,11 +37,9 @@
 
           </div>
 
-          <!-- Bottom: XKCD -->
           {% if xkcd %}
           <div class="xkcd-strip">
-            <span class="xkcd-num">XKCD #{{ xkcd.num }}</span>
-            <span class="xkcd-title">&ldquo;{{ xkcd.title }}&rdquo;</span>
+            <span class="xkcd-hed">XKCD &mdash; &ldquo;{{ xkcd.title }}&rdquo;</span>
             <span class="xkcd-alt">{{ xkcd.alt }}</span>
           </div>
           {% endif %}
@@ -63,13 +60,15 @@
 <style>
   .layout--full, .view--full { height: 100%; }
 
+  /* ── Outer container ─────────────────────────── */
   .screen {
     display: flex;
     flex-direction: column;
-    height: calc(var(--screen-h, 480px) - 48px);
     width: 100%;
+    height: calc(var(--screen-h, 480px) - 48px);
   }
 
+  /* ── Top: subway + weather side by side ─────── */
   .top-row {
     flex: 1;
     display: flex;
@@ -81,53 +80,10 @@
     flex: 3;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 16px 24px;
-  }
-
-  .panel__weather {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    gap: 5px;
-    border-left: 1px solid #000;
-    padding: 52px 16px 16px;
-  }
-
-  .xkcd-strip {
-    border-top: 1px solid #ccc;
-    padding: 8px 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    gap: 10px;
-    overflow: hidden;
-  }
-
-  .xkcd-num {
-    font-size: 0.65em;
-    color: #999;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .xkcd-title {
-    font-size: 0.75em;
-    font-weight: bold;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .xkcd-alt {
-    font-size: 0.75em;
-    color: #444;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    gap: 28px;
+    padding: 16px 24px;
   }
 
   .station-header {
@@ -152,21 +108,61 @@
   }
 
   .arrival__time {
-    font-size: 2em;
+    font-size: 2.2em;
     font-weight: bold;
     font-variant-numeric: tabular-nums;
     line-height: 1;
   }
 
   .arrival__route {
-    font-size: 0.8em;
-    color: #777;
+    font-size: 0.75em;
+    color: #888;
+  }
+
+  /* ── Weather column ─────────────────────────── */
+  .panel__weather {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    border-left: 1px solid #ccc;
+    padding: 48px 16px 16px;
   }
 
   .weather__temp {
     font-size: 2.8em;
     font-weight: bold;
     line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  /* ── XKCD strip ─────────────────────────────── */
+  .xkcd-strip {
+    border-top: 1px solid #ddd;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+  }
+
+  .xkcd-hed {
+    font-size: 0.72em;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .xkcd-alt {
+    font-size: 0.72em;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .text--size-l { font-size: 1.4em; }

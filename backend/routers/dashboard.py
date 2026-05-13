@@ -40,10 +40,8 @@ async def _fetch_weather() -> dict | None:
 async def dashboard(preview: bool = False):
     arrivals, weather = await asyncio.gather(_fetch_subway(), _fetch_weather())
 
-    context = {"arrivals": arrivals, "weather": weather}
-    template = "preview.html" if preview else "trmnl.html"
-    html = _templates.get_template(template).render(**context)
-
     if preview:
+        html = _templates.get_template("preview.html").render(arrivals=arrivals, weather=weather)
         return HTMLResponse(html)
-    return JSONResponse({"markup": html})
+
+    return JSONResponse({"arrivals": arrivals, "weather": weather})

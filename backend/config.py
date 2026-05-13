@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     default_latitude: float = 40.8487
     default_longitude: float = -73.9385
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
 
 settings = Settings()

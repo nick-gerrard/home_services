@@ -3,35 +3,49 @@
     <div class="columns columns--1">
       <div class="column column--grow">
 
-        <div class="panel">
+        <div class="screen">
 
-          <div class="panel__subway">
-            <div class="station-header">
-              <span class="title text--size-l">181st Street</span>
-              <span class="label">A Train &mdash; Downtown</span>
-            </div>
-            <div class="arrivals">
-              {% for a in arrivals %}
-              <div class="arrival">
-                <span class="arrival__time">{{ a.time }}</span>
-                <span class="arrival__route">{{ a.route }}</span>
+          <!-- Top: Subway + Weather -->
+          <div class="top-row">
+
+            <div class="panel__subway">
+              <div class="station-header">
+                <span class="title text--size-l">181st Street</span>
+                <span class="label">A Train &mdash; Downtown</span>
               </div>
-              {% else %}
-              <span class="label">No upcoming trains</span>
-              {% endfor %}
+              <div class="arrivals">
+                {% for a in arrivals %}
+                <div class="arrival">
+                  <span class="arrival__time">{{ a.time }}</span>
+                  <span class="arrival__route">{{ a.route }}</span>
+                </div>
+                {% else %}
+                <span class="label">No upcoming trains</span>
+                {% endfor %}
+              </div>
             </div>
+
+            <div class="panel__weather">
+              {% if weather %}
+              <span class="weather__temp">{{ weather.temperature }}&deg;</span>
+              <span class="label">{{ weather.description }}</span>
+              <span class="label">H {{ weather.high }}&deg; &nbsp; L {{ weather.low }}&deg;</span>
+              <span class="label">{{ weather.wind_speed }} mph</span>
+              {% else %}
+              <span class="label">Weather unavailable</span>
+              {% endif %}
+            </div>
+
           </div>
 
-          <div class="panel__weather">
-            {% if weather %}
-            <span class="weather__temp">{{ weather.temperature }}&deg;</span>
-            <span class="label">{{ weather.description }}</span>
-            <span class="label">H {{ weather.high }}&deg; &nbsp; L {{ weather.low }}&deg;</span>
-            <span class="label">{{ weather.wind_speed }} mph</span>
-            {% else %}
-            <span class="label">Weather unavailable</span>
-            {% endif %}
+          <!-- Bottom: XKCD -->
+          {% if xkcd %}
+          <div class="xkcd-strip">
+            <span class="xkcd-num">XKCD #{{ xkcd.num }}</span>
+            <span class="xkcd-title">&ldquo;{{ xkcd.title }}&rdquo;</span>
+            <span class="xkcd-alt">{{ xkcd.alt }}</span>
           </div>
+          {% endif %}
 
         </div>
 
@@ -48,13 +62,19 @@
 
 <style>
   .layout--full, .view--full { height: 100%; }
-  .columns { align-items: stretch !important; }
 
-  .panel {
+  .screen {
+    display: flex;
+    flex-direction: column;
+    height: calc(var(--screen-h, 480px) - 48px);
+    width: 100%;
+  }
+
+  .top-row {
+    flex: 1;
     display: flex;
     flex-direction: row;
-    height: 100%;
-    width: 100%;
+    min-height: 0;
   }
 
   .panel__subway {
@@ -63,7 +83,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    padding: 20px 24px;
+    padding: 16px 24px;
   }
 
   .panel__weather {
@@ -73,9 +93,41 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    gap: 6px;
+    gap: 5px;
     border-left: 1px solid #000;
-    padding: 20px 16px;
+    padding: 52px 16px 16px;
+  }
+
+  .xkcd-strip {
+    border-top: 1px solid #ccc;
+    padding: 8px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+    overflow: hidden;
+  }
+
+  .xkcd-num {
+    font-size: 0.65em;
+    color: #999;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .xkcd-title {
+    font-size: 0.75em;
+    font-weight: bold;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .xkcd-alt {
+    font-size: 0.75em;
+    color: #444;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .station-header {
@@ -107,12 +159,12 @@
   }
 
   .arrival__route {
-    font-size: 0.85em;
-    color: #555;
+    font-size: 0.8em;
+    color: #777;
   }
 
   .weather__temp {
-    font-size: 3em;
+    font-size: 2.8em;
     font-weight: bold;
     line-height: 1;
   }
